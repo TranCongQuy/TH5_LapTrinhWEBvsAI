@@ -2,7 +2,7 @@
 
 [![Deploy to Vercel](https://github.com/TranCongQuy/TH5_LapTrinhWEBvsAI/actions/workflows/deploy.yml/badge.svg)](https://github.com/TranCongQuy/TH5_LapTrinhWEBvsAI/actions/workflows/deploy.yml)
 
-🔗 **Live Demo**: https://th5-lap-trinh-we-bvs-ai.vercel.app
+🔗 **Live Demo**: https://th-5-lap-trinh-we-bvs-ai.vercel.app
 
 ## 📖 Mô Tả
 
