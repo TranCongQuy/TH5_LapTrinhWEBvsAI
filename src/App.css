@@ -1,6 +1,7 @@
 /* ============================================================================
-   MODERN TODO APP - Phiên bản SaaS-grade
-   Style: Linear / Vercel / Notion inspired
+   MODERN TODO APP - Light + Dark mode
+   Default: Light mode sáng sủa
+   Toggle: Nút mặt trời/mặt trăng góc phải trên
    ============================================================================ */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
@@ -14,15 +15,56 @@
 :root {
   --primary: #6366f1;
   --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
   --accent: #06b6d4;
   --success: #10b981;
   --danger: #ef4444;
-  --bg: #fafbff;
+
+  /* Light mode (default) */
+  --bg-base: #f8fafc;
+  --bg-gradient-1: rgba(99, 102, 241, 0.1);
+  --bg-gradient-2: rgba(6, 182, 212, 0.1);
+  --bg-gradient-3: rgba(168, 85, 247, 0.06);
+
   --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.85);
+  --surface-hover: #f8fafc;
+  --surface-completed: #f0fdf4;
+  --input-bg: #f1f5f9;
+
   --text: #0f172a;
   --text-muted: #64748b;
+  --text-light: #94a3b8;
+
   --border: #e2e8f0;
+  --border-focus: rgba(99, 102, 241, 0.3);
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 20px rgba(99, 102, 241, 0.08);
+  --shadow-lg: 0 10px 40px rgba(99, 102, 241, 0.12);
+}
+
+body.dark {
+  --bg-base: #0a0a0f;
+  --bg-gradient-1: rgba(99, 102, 241, 0.15);
+  --bg-gradient-2: rgba(6, 182, 212, 0.12);
+  --bg-gradient-3: rgba(168, 85, 247, 0.08);
+
+  --surface: #16161d;
+  --surface-glass: rgba(22, 22, 29, 0.75);
+  --surface-hover: #1e1e28;
+  --surface-completed: #0f1a15;
+  --input-bg: #0f0f15;
+
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+
+  --border: #2a2a35;
+  --border-focus: rgba(129, 140, 248, 0.4);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 40px rgba(99, 102, 241, 0.15);
 }
 
 body {
@@ -36,24 +78,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--text);
   min-height: 100vh;
-  background: #fafbff;
+  background-color: var(--bg-base);
   background-image:
     radial-gradient(
       circle at 15% 20%,
-      rgba(99, 102, 241, 0.08) 0%,
+      var(--bg-gradient-1) 0%,
       transparent 40%
     ),
     radial-gradient(
       circle at 85% 80%,
-      rgba(6, 182, 212, 0.08) 0%,
+      var(--bg-gradient-2) 0%,
       transparent 40%
     ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(168, 85, 247, 0.05) 0%,
-      transparent 50%
-    );
+    radial-gradient(circle at 50% 50%, var(--bg-gradient-3) 0%, transparent 50%);
   background-attachment: fixed;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* ============================================================================
@@ -66,13 +107,21 @@ body {
 }
 
 .app__header {
-  text-align: center;
   margin-bottom: 48px;
   animation: fadeInDown 0.6s ease;
 }
 
+.app__header-content {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
 .app__header h1 {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 800;
   letter-spacing: -1.5px;
   margin: 0;
@@ -85,38 +134,63 @@ body {
   animation: gradientShift 6s ease infinite;
 }
 
+/* Theme toggle button */
+.theme-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--surface-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.theme-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
 .app__main {
   max-width: 720px;
   margin: 0 auto;
 }
 
 /* ============================================================================
-   FORM - Add Todo
+   FORM
    ============================================================================ */
 
 .app__form {
-  position: relative;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid var(--border);
   padding: 24px;
   border-radius: 20px;
   margin-bottom: 20px;
   display: flex;
   gap: 12px;
   align-items: flex-end;
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 40px rgba(99, 102, 241, 0.06);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
 }
 
 .app__form:focus-within {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 50px rgba(99, 102, 241, 0.12);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
 }
 
@@ -143,23 +217,23 @@ body {
   font-weight: 500;
   font-family: inherit;
   transition: all 0.2s ease;
-  background-color: #f8fafc;
+  background-color: var(--input-bg);
   color: var(--text);
 }
 
 .form-group input:hover {
-  border-color: #cbd5e1;
+  border-color: var(--text-light);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: #ffffff;
+  background-color: var(--surface);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
 .form-group input::placeholder {
-  color: #94a3b8;
+  color: var(--text-light);
   font-weight: 400;
 }
 
@@ -256,20 +330,20 @@ body {
 }
 
 .btn--filter {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--surface-glass);
   backdrop-filter: blur(10px);
   color: var(--text-muted);
   padding: 11px 18px;
   font-size: 13px;
   font-weight: 600;
   border: 1.5px solid var(--border);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn--filter:hover {
-  border-color: #cbd5e1;
+  border-color: var(--text-light);
   color: var(--text);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--surface);
 }
 
 .btn--filter--active {
@@ -292,25 +366,20 @@ body {
    ============================================================================ */
 
 .search-bar {
-  position: relative;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid var(--border);
   padding: 20px 24px;
   border-radius: 20px;
   margin-bottom: 16px;
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 40px rgba(99, 102, 241, 0.06);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
 }
 
 .search-bar:focus-within {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 50px rgba(99, 102, 241, 0.12);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
 }
 
@@ -332,24 +401,24 @@ body {
   font-size: 15px;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f8fafc;
+  background-color: var(--input-bg);
   color: var(--text);
   transition: all 0.2s ease;
 }
 
 .search-bar input:hover {
-  border-color: #cbd5e1;
+  border-color: var(--text-light);
 }
 
 .search-bar input::placeholder {
-  color: #94a3b8;
+  color: var(--text-light);
   font-weight: 400;
 }
 
 .search-bar input:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: #ffffff;
+  background-color: var(--surface);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
@@ -365,22 +434,21 @@ body {
 }
 
 /* ============================================================================
-   STATS - Glass + Gradient numbers
+   STATS
    ============================================================================ */
 
 .stats {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid var(--border);
   padding: 24px;
   border-radius: 20px;
   margin-bottom: 24px;
   display: flex;
   justify-content: space-around;
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 40px rgba(99, 102, 241, 0.06);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
 }
 
 .stat {
@@ -399,7 +467,7 @@ body {
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(99, 102, 241, 0.15),
+    var(--border-focus),
     transparent
   );
 }
@@ -439,26 +507,24 @@ body {
   list-style: none;
   padding: 0;
   margin: 0 0 24px 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.03),
-    0 10px 40px rgba(99, 102, 241, 0.06);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
 }
 
 .todo-item {
   display: flex;
   align-items: center;
   padding: 18px 22px;
-  border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+  border-bottom: 1px solid var(--border);
   gap: 16px;
   transition: all 0.2s ease;
   position: relative;
-  border-left: 3px solid transparent;
 }
 
 .todo-item:last-child {
@@ -478,7 +544,7 @@ body {
 }
 
 .todo-item:hover {
-  background-color: rgba(248, 250, 252, 0.8);
+  background-color: var(--surface-hover);
 }
 
 .todo-item:hover::before {
@@ -486,16 +552,12 @@ body {
 }
 
 .todo-item--completed {
-  background-color: rgba(248, 250, 252, 0.5);
+  background-color: var(--surface-completed);
 }
 
 .todo-item--completed::before {
   background: linear-gradient(to bottom, #10b981, #06b6d4);
   opacity: 1;
-}
-
-.todo-item--completed:hover {
-  background-color: rgba(240, 253, 244, 0.5);
 }
 
 .todo-item__checkbox {
@@ -528,9 +590,9 @@ body {
 }
 
 .todo-item--completed .todo-item__text {
-  color: #94a3b8;
+  color: var(--text-light);
   text-decoration: line-through;
-  text-decoration-color: #94a3b8;
+  text-decoration-color: var(--text-light);
   text-decoration-thickness: 2px;
 }
 
@@ -548,12 +610,12 @@ body {
   color: var(--text-muted);
   font-size: 15px;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 2px dashed rgba(99, 102, 241, 0.2);
+  border: 2px dashed var(--border-focus);
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.04);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 }
@@ -563,8 +625,7 @@ body {
   display: block;
   font-size: 64px;
   margin-bottom: 20px;
-  opacity: 0.6;
-  filter: grayscale(0.3);
+  opacity: 0.7;
 }
 
 /* ============================================================================
@@ -645,8 +706,7 @@ body {
   }
 
   .app__header h1 {
-    font-size: 36px;
-    letter-spacing: -1px;
+    font-size: 32px;
   }
 
   .app__header {
@@ -678,7 +738,18 @@ body {
   }
 
   .app__header h1 {
-    font-size: 30px;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+  }
+
+  .app__header-content {
+    gap: 12px;
+  }
+
+  .theme-toggle {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
   }
 
   .btn {
@@ -726,135 +797,6 @@ body {
 }
 
 /* ============================================================================
-   DARK MODE
-   ============================================================================ */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0a0a0f;
-    --surface: #16161d;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --border: #2a2a35;
-  }
-
-  body {
-    background: #0a0a0f;
-    background-image:
-      radial-gradient(
-        circle at 15% 20%,
-        rgba(99, 102, 241, 0.15) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 85% 80%,
-        rgba(6, 182, 212, 0.12) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 50% 50%,
-        rgba(168, 85, 247, 0.08) 0%,
-        transparent 50%
-      );
-    background-attachment: fixed;
-  }
-
-  .app__form,
-  .search-bar,
-  .todo-list,
-  .stats,
-  .empty-state {
-    background: rgba(22, 22, 29, 0.7);
-    backdrop-filter: blur(20px);
-    border-color: rgba(42, 42, 53, 0.8);
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.3),
-      0 10px 40px rgba(99, 102, 241, 0.1);
-  }
-
-  .app__form:focus-within,
-  .search-bar:focus-within {
-    border-color: rgba(129, 140, 248, 0.4);
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.3),
-      0 10px 50px rgba(99, 102, 241, 0.2);
-  }
-
-  .form-group label,
-  .search-bar label {
-    color: #94a3b8;
-  }
-
-  .form-group input,
-  .search-bar input {
-    background-color: #0f0f15;
-    border-color: #2a2a35;
-    color: #f1f5f9;
-  }
-
-  .form-group input:hover,
-  .search-bar input:hover {
-    border-color: #3a3a48;
-  }
-
-  .form-group input:focus,
-  .search-bar input:focus {
-    background-color: #16161d;
-    border-color: #818cf8;
-  }
-
-  .form-group input::placeholder,
-  .search-bar input::placeholder {
-    color: #64748b;
-  }
-
-  .btn--filter {
-    background-color: rgba(22, 22, 29, 0.7);
-    color: #94a3b8;
-    border-color: #2a2a35;
-  }
-
-  .btn--filter:hover {
-    background-color: #2a2a35;
-    color: #f1f5f9;
-  }
-
-  .stat:not(:last-child)::after {
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      rgba(129, 140, 248, 0.2),
-      transparent
-    );
-  }
-
-  .todo-item {
-    border-bottom-color: rgba(42, 42, 53, 0.6);
-  }
-
-  .todo-item:hover {
-    background-color: rgba(42, 42, 53, 0.4);
-  }
-
-  .todo-item--completed {
-    background-color: rgba(15, 15, 21, 0.6);
-  }
-
-  .todo-item__text {
-    color: #f1f5f9;
-  }
-
-  .todo-item--completed .todo-item__text {
-    color: #64748b;
-  }
-
-  .empty-state {
-    color: #64748b;
-    border-color: rgba(129, 140, 248, 0.2);
-  }
-}
-
-/* ============================================================================
    PRINT
    ============================================================================ */
 
@@ -862,7 +804,8 @@ body {
   .app__form,
   .search-bar,
   .filter-bar,
-  .btn {
+  .btn,
+  .theme-toggle {
     display: none;
   }
 }

@@ -11,6 +11,17 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [inputError, setInputError] = useState("");
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    if (saved !== null) return saved === "true";
+    // Mặc định theo hệ thống
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   useEffect(() => {
     try {
@@ -74,7 +85,19 @@ function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <h1>📝 Ứng Dụng Todo</h1>
+        <div className="app__header-content">
+          <h1>📝 Ứng Dụng Todo</h1>
+          <button
+            className="theme-toggle"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label={
+              darkMode ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"
+            }
+            title={darkMode ? "Chế độ sáng" : "Chế độ tối"}
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+        </div>
       </header>
 
       <main className="app__main">
