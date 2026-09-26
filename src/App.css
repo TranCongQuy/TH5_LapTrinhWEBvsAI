@@ -1,19 +1,59 @@
 /* ============================================================================
-   APP STYLES - Todo List Application
+   MODERN TODO APP - Phiên bản SaaS-grade
+   Style: Linear / Vercel / Notion inspired
    ============================================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --danger: #ef4444;
+  --bg: #fafbff;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
 }
 
 body {
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  color: var(--text);
+  min-height: 100vh;
+  background: #fafbff;
+  background-image:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(99, 102, 241, 0.08) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(6, 182, 212, 0.08) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(168, 85, 247, 0.05) 0%,
+      transparent 50%
+    );
+  background-attachment: fixed;
 }
 
 /* ============================================================================
@@ -22,39 +62,62 @@ body {
 
 .app {
   min-height: 100vh;
-  padding: 20px;
+  padding: 60px 20px 80px;
 }
 
 .app__header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
+  animation: fadeInDown 0.6s ease;
 }
 
 .app__header h1 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #1a1a1a;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
   margin: 0;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
 }
 
 .app__main {
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
 /* ============================================================================
-   FORM STYLES
+   FORM - Add Todo
    ============================================================================ */
 
 .app__form {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 24px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 20px;
   display: flex;
   gap: 12px;
   align-items: flex-end;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 40px rgba(99, 102, 241, 0.06);
+  transition: all 0.3s ease;
+}
+
+.app__form:focus-within {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 50px rgba(99, 102, 241, 0.12);
+  transform: translateY(-1px);
 }
 
 .form-group {
@@ -63,53 +126,86 @@ body {
 
 .form-group label {
   display: block;
-  font-weight: 500;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #555;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 .form-group input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   font-family: inherit;
   transition: all 0.2s ease;
+  background-color: #f8fafc;
+  color: var(--text);
+}
+
+.form-group input:hover {
+  border-color: #cbd5e1;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--primary);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
-.form-group input:invalid {
-  border-color: #ef4444;
+.form-group input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
 }
 
 .error {
   display: block;
-  color: #ef4444;
+  color: var(--danger);
   font-size: 12px;
-  margin-top: 6px;
+  margin-top: 8px;
+  font-weight: 600;
+  animation: shake 0.3s ease;
 }
 
 /* ============================================================================
-   BUTTON STYLES
+   BUTTONS
    ============================================================================ */
 
 .btn {
-  padding: 10px 16px;
+  position: relative;
+  padding: 14px 24px;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
   font-family: inherit;
+  letter-spacing: 0.2px;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
 }
 
 .btn:hover {
@@ -118,7 +214,7 @@ body {
 
 .btn:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
 }
 
 .btn:active {
@@ -126,187 +222,316 @@ body {
 }
 
 .btn--primary {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
+  box-shadow:
+    0 4px 12px rgba(99, 102, 241, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn--primary:hover {
-  background-color: #2563eb;
+  box-shadow:
+    0 8px 24px rgba(99, 102, 241, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn--danger {
-  background-color: #ef4444;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
+  box-shadow:
+    0 4px 12px rgba(239, 68, 68, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .btn--danger:hover {
-  background-color: #dc2626;
+  box-shadow:
+    0 8px 24px rgba(239, 68, 68, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .btn--small {
-  padding: 6px 10px;
-  font-size: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: 10px;
 }
 
 .btn--filter {
-  background-color: #e5e7eb;
-  color: #666;
-  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  color: var(--text-muted);
+  padding: 11px 18px;
   font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .btn--filter:hover {
-  background-color: #d1d5db;
+  border-color: #cbd5e1;
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .btn--filter--active {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
+  border-color: transparent;
+  box-shadow:
+    0 4px 12px rgba(99, 102, 241, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn--filter--active:hover {
-  background-color: #2563eb;
+  border-color: transparent;
+  color: white;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 }
 
 /* ============================================================================
-   SEARCH BAR STYLES
+   SEARCH BAR
    ============================================================================ */
 
 .search-bar {
-  background: white;
-  padding: 16px 20px;
-  border-radius: 8px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 20px 24px;
+  border-radius: 20px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 40px rgba(99, 102, 241, 0.06);
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 50px rgba(99, 102, 241, 0.12);
+  transform: translateY(-1px);
 }
 
 .search-bar label {
   display: block;
-  font-weight: 500;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #555;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   font-family: inherit;
-  background-color: #f3f4f6;
+  background-color: #f8fafc;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.search-bar input:hover {
+  border-color: #cbd5e1;
 }
 
 .search-bar input::placeholder {
-  color: #999;
+  color: #94a3b8;
+  font-weight: 400;
 }
 
 .search-bar input:focus {
   outline: none;
-  border-color: #3b82f6;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--primary);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
 /* ============================================================================
-   FILTER BAR STYLES
+   FILTER BAR
    ============================================================================ */
 
 .filter-bar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 /* ============================================================================
-   STATISTICS STYLES
+   STATS - Glass + Gradient numbers
    ============================================================================ */
 
 .stats {
-  background: #e0e7ff;
-  padding: 16px 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-around;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 40px rgba(99, 102, 241, 0.06);
 }
 
 .stat {
   text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.stat:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(99, 102, 241, 0.15),
+    transparent
+  );
 }
 
 .stat__number {
   display: block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #1a1a1a;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
+.stat:hover .stat__number {
+  transform: scale(1.12);
 }
 
 .stat__label {
   display: block;
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* ============================================================================
-   TODO LIST STYLES
+   TODO LIST
    ============================================================================ */
 
 .todo-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
-  background: white;
-  border-radius: 8px;
+  margin: 0 0 24px 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.03),
+    0 10px 40px rgba(99, 102, 241, 0.06);
 }
 
 .todo-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  gap: 12px;
-  transition: background-color 0.2s ease;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+  gap: 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  border-left: 3px solid transparent;
 }
 
 .todo-item:last-child {
   border-bottom: none;
 }
 
+.todo-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
 .todo-item:hover {
-  background-color: #f9f9f9;
+  background-color: rgba(248, 250, 252, 0.8);
+}
+
+.todo-item:hover::before {
+  opacity: 1;
 }
 
 .todo-item--completed {
-  background-color: #f9fafb;
+  background-color: rgba(248, 250, 252, 0.5);
+}
+
+.todo-item--completed::before {
+  background: linear-gradient(to bottom, #10b981, #06b6d4);
+  opacity: 1;
+}
+
+.todo-item--completed:hover {
+  background-color: rgba(240, 253, 244, 0.5);
 }
 
 .todo-item__checkbox {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
   flex-shrink: 0;
+  accent-color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.todo-item__checkbox:hover {
+  transform: scale(1.1);
 }
 
 .todo-item__checkbox:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 .todo-item__text {
   flex: 1;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   word-break: break-word;
+  color: var(--text);
+  transition: all 0.3s ease;
+  line-height: 1.5;
 }
 
 .todo-item--completed .todo-item__text {
-  color: #999;
+  color: #94a3b8;
   text-decoration: line-through;
+  text-decoration-color: #94a3b8;
+  text-decoration-thickness: 2px;
 }
 
 .todo-item .btn--small {
@@ -314,33 +539,124 @@ body {
 }
 
 /* ============================================================================
-   EMPTY STATE STYLES
+   EMPTY STATE
    ============================================================================ */
 
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
-  color: #999;
-  font-size: 14px;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px dashed rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.empty-state::before {
+  content: "📝";
+  display: block;
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.6;
+  filter: grayscale(0.3);
 }
 
 /* ============================================================================
-   RESPONSIVE DESIGN
+   ANIMATIONS
    ============================================================================ */
 
-/* Tablet (480px - 768px) */
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.todo-item {
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.empty-state {
+  animation: fadeIn 0.5s ease;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .app {
-    padding: 16px;
+    padding: 40px 16px 60px;
   }
 
   .app__header h1 {
-    font-size: 24px;
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .app__header {
+    margin-bottom: 32px;
   }
 
   .app__form {
     flex-direction: column;
     align-items: stretch;
+    padding: 20px;
   }
 
   .app__main {
@@ -348,138 +664,198 @@ body {
   }
 
   .stats {
-    gap: 12px;
+    padding: 20px 12px;
+  }
+
+  .stat__number {
+    font-size: 26px;
   }
 }
 
-/* Mobile (< 480px) */
 @media (max-width: 480px) {
   .app {
-    padding: 12px;
+    padding: 32px 12px 40px;
   }
 
   .app__header h1 {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .btn {
-    padding: 8px 12px;
+    padding: 12px 16px;
     font-size: 13px;
   }
 
   .btn--small {
-    padding: 5px 8px;
-    font-size: 11px;
+    padding: 8px 10px;
+    font-size: 12px;
   }
 
   .filter-bar {
-    gap: 6px;
+    gap: 8px;
+  }
+
+  .btn--filter {
+    padding: 10px 14px;
+    font-size: 12px;
+    flex: 1;
   }
 
   .todo-item {
-    padding: 10px 12px;
-    gap: 10px;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .todo-item__text {
+    font-size: 14px;
   }
 
   .stat__number {
-    font-size: 16px;
+    font-size: 22px;
   }
 
   .stat__label {
-    font-size: 11px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .search-bar,
+  .app__form {
+    padding: 16px;
   }
 }
 
 /* ============================================================================
-   DARK MODE (Optional)
+   DARK MODE
    ============================================================================ */
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+  :root {
+    --bg: #0a0a0f;
+    --surface: #16161d;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #2a2a35;
   }
 
-  .app__header h1 {
-    color: #ffffff;
+  body {
+    background: #0a0a0f;
+    background-image:
+      radial-gradient(
+        circle at 15% 20%,
+        rgba(99, 102, 241, 0.15) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 85% 80%,
+        rgba(6, 182, 212, 0.12) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(168, 85, 247, 0.08) 0%,
+        transparent 50%
+      );
+    background-attachment: fixed;
   }
 
   .app__form,
   .search-bar,
-  .todo-list {
-    background: #2a2a2a;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  .todo-list,
+  .stats,
+  .empty-state {
+    background: rgba(22, 22, 29, 0.7);
+    backdrop-filter: blur(20px);
+    border-color: rgba(42, 42, 53, 0.8);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 10px 40px rgba(99, 102, 241, 0.1);
+  }
+
+  .app__form:focus-within,
+  .search-bar:focus-within {
+    border-color: rgba(129, 140, 248, 0.4);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 10px 50px rgba(99, 102, 241, 0.2);
   }
 
   .form-group label,
   .search-bar label {
-    color: #b0b0b0;
+    color: #94a3b8;
   }
 
   .form-group input,
   .search-bar input {
-    background-color: #333;
-    border-color: #444;
-    color: #e0e0e0;
+    background-color: #0f0f15;
+    border-color: #2a2a35;
+    color: #f1f5f9;
   }
 
-  .form-group input:focus {
-    background-color: #3a3a3a;
-    border-color: #3b82f6;
+  .form-group input:hover,
+  .search-bar input:hover {
+    border-color: #3a3a48;
   }
 
+  .form-group input:focus,
   .search-bar input:focus {
-    background-color: #3a3a3a;
+    background-color: #16161d;
+    border-color: #818cf8;
   }
 
+  .form-group input::placeholder,
   .search-bar input::placeholder {
-    color: #666;
+    color: #64748b;
   }
 
   .btn--filter {
-    background-color: #444;
-    color: #b0b0b0;
+    background-color: rgba(22, 22, 29, 0.7);
+    color: #94a3b8;
+    border-color: #2a2a35;
   }
 
   .btn--filter:hover {
-    background-color: #555;
+    background-color: #2a2a35;
+    color: #f1f5f9;
   }
 
-  .stats {
-    background-color: #2a3f5f;
+  .stat:not(:last-child)::after {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(129, 140, 248, 0.2),
+      transparent
+    );
   }
 
-  .stat__number {
-    color: #ffffff;
-  }
-
-  .stat__label {
-    color: #b0b0b0;
+  .todo-item {
+    border-bottom-color: rgba(42, 42, 53, 0.6);
   }
 
   .todo-item:hover {
-    background-color: #333;
+    background-color: rgba(42, 42, 53, 0.4);
   }
 
   .todo-item--completed {
-    background-color: #2a2a2a;
+    background-color: rgba(15, 15, 21, 0.6);
   }
 
   .todo-item__text {
-    color: #e0e0e0;
+    color: #f1f5f9;
   }
 
   .todo-item--completed .todo-item__text {
-    color: #666;
+    color: #64748b;
   }
 
   .empty-state {
-    color: #666;
+    color: #64748b;
+    border-color: rgba(129, 140, 248, 0.2);
   }
 }
 
 /* ============================================================================
-   PRINT STYLES
+   PRINT
    ============================================================================ */
 
 @media print {
@@ -488,9 +864,5 @@ body {
   .filter-bar,
   .btn {
     display: none;
-  }
-
-  .todo-item--completed .todo-item__text {
-    color: #666;
   }
 }
